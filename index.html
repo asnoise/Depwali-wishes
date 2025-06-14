@@ -11,6 +11,7 @@
         /* CSS Styles */
         body {
             margin: 0;
+            padding-bottom: 70px; /* विज्ञापन के लिए नीचे जगह बनाने के लिए */
             font-family: 'Tiro Devanagari Hindi', serif;
             background: linear-gradient(-45deg, #03071e, #580c1f, #ff6700, #ffc300);
             background-size: 400% 400%;
@@ -23,7 +24,7 @@
             color: #fff;
             padding: 15px;
             box-sizing: border-box;
-            overflow: hidden;
+            overflow-x: hidden; /* Horizontal scroll को रोकने के लिए */
         }
 
         @keyframes gradientBG {
@@ -127,13 +128,13 @@
         }
 
         #shareButton {
-            display: flex; /* Naya: Logo aur text ko align karne ke liye */
-            align-items: center; /* Naya: Vertically center karne ke liye */
-            justify-content: center; /* Naya: Horizontally center karne ke liye */
-            width: 90%; /* Thoda choda kiya */
+            display: flex; 
+            align-items: center;
+            justify-content: center;
+            width: 90%; 
             margin: 20px auto 0;
             padding: 12px 15px;
-            background: linear-gradient(45deg, #25D366, #128C7E); /* WhatsApp color theme */
+            background: linear-gradient(45deg, #25D366, #128C7E);
             color: white;
             border: none;
             border-radius: 25px;
@@ -150,12 +151,24 @@
             box-shadow: 0 6px 20px rgba(37, 211, 102, 0.7);
         }
 
-        /* Naya CSS: Button ke andar ke SVG logo ke liye */
         #shareButton svg {
             width: 24px;
             height: 24px;
             margin-right: 10px;
         }
+
+        /* --- यहाँ से नया विज्ञापन CSS जोड़ा गया है --- */
+        .ad-container {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 320px;
+            height: 50px;
+            z-index: 9999; /* यह सुनिश्चित करेगा कि विज्ञापन सबसे ऊपर हो */
+            background-color: transparent; /* विज्ञापन लोड होने तक कोई रंग नहीं */
+        }
+        /* --- यहाँ विज्ञापन CSS समाप्त होता है --- */
     </style>
 </head>
 <body>
@@ -174,9 +187,7 @@
         <div class="share-section">
             <p>अपना नाम लिखें और शुभकामनाएँ भेजें!</p>
             <input type="text" id="nameInput" placeholder="यहाँ अपना नाम लिखें">
-            <!-- NAYA BUTTON HTML -->
             <button id="shareButton">
-                <!-- WhatsApp SVG Logo -->
                 <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
                     <path d="M16.75 13.96c.25.43.53.84.79 1.28.32.55.45.98.37 1.41-.09.52-.41.97-.81 1.3-1.02.86-2.33.95-3.51.52-1.33-.48-2.5-1.42-3.51-2.61C8.89 14.7 8.01 13.5 7.4 12.18c-.44-1-.44-2.14.16-3.15.22-.38.5-.72.82-1.02.4-.38.8-.56 1.23-.53.53.03.95.27 1.28.84l.58 1.01c.32.54.49.99.32 1.48-.12.35-.41.68-.78.96-.3.23-.56.44-.76.65-.21.22-.39.46-.24.78.23.47.66.97 1.15 1.48.65.69 1.28 1.16 1.95 1.4.3.1.63.1.9-.15.29-.26.54-.56.81-.88.42-.48.92-.7 1.45-.58.55.12.98.44 1.29.91l.62 1.01zM12 2a10 10 0 100 20 10 10 0 000-20z"/>
                 </svg>
@@ -185,9 +196,25 @@
         </div>
     </div>
 
+    <!-- --- यहाँ से नया विज्ञापन HTML जोड़ा गया है --- -->
+    <div class="ad-container">
+        <script type="text/javascript">
+            atOptions = {
+                'key' : 'c799e3104d24feee881ba4e44a43aaa9',
+                'format' : 'iframe',
+                'height' : 50,
+                'width' : 320,
+                'params' : {}
+            };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/c799e3104d24feee881ba4e44a43aaa9/invoke.js"></script>
+    </div>
+    <!-- --- यहाँ विज्ञापन HTML समाप्त होता है --- -->
+
     <script>
-        // JavaScript Logic
+        // आपका मौजूदा JavaScript कोड यहाँ से शुरू होता है
         window.onload = function() {
+            //... बाकी का कोड जैसा था वैसा ही है
             const urlParams = new URLSearchParams(window.location.search);
             const senderName = urlParams.get('from');
             
@@ -229,7 +256,7 @@
             });
         };
 
-        // Firecracker effect ka code (Updated for more intensity)
+        // Firecracker effect ka code
         const canvas = document.getElementById('fireworks-canvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
@@ -238,19 +265,19 @@
         const fireworkColors = ['#FFD700', '#FF4500', '#FFFFFF', '#FF69B4', '#00FFFF', '#FF1493'];
         
         function launchFirework() {
-            // Screen par max firework ki sankhya badhai (10 se 15)
             if (fireworks.length < 15) {
                 const sX = Math.random() * canvas.width, sY = canvas.height, eX = sX, eY = Math.random() * (canvas.height / 2);
                 fireworks.push({ x: sX, y: sY, tx: eX, ty: eY, speed: 0.05, angle: Math.atan2(eY - sY, eX - sX) });
             }
         }
-
+        
+        // यहां createParticles function में एक छोटा सा बग था, मैंने उसे ठीक कर दिया है (c की जगह color)
         function createParticles(x, y) {
-            const particleCount = 120; // Explosion mein particles badhaye
+            const particleCount = 120;
             const color = fireworkColors[Math.floor(Math.random() * fireworkColors.length)];
             for (let i = 0; i < particleCount; i++) {
-                const a = Math.random() * Math.PI * 2, s = Math.random() * 5 + 1; // Speed thodi badhai
-                particles.push({ x: x, y: y, vx: Math.cos(a) * s, vy: Math.sin(a) * s, alpha: 1, color: c, gravity: 0.05 });
+                const a = Math.random() * Math.PI * 2, s = Math.random() * 5 + 1;
+                particles.push({ x: x, y: y, vx: Math.cos(a) * s, vy: Math.sin(a) * s, alpha: 1, color: color, gravity: 0.05 });
             }
         }
 
@@ -259,7 +286,6 @@
             ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            // Firework launch karne ki probability 3 guna badhai (0.04 se 0.12)
             if (Math.random() < 0.12) {
                 launchFirework();
             }
